@@ -1,42 +1,51 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Libro 💌</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Libro 💌</title>
+
+<link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
 <audio id="music" src="musica.mp3" loop></audio>
-
 <div class="music-btn" onclick="toggleMusic()">🎵</div>
 
-<div class="scene">
-  <div class="book" id="book">
+<!-- BLOQUEO -->
+<div class="lock-screen" id="lockScreen">
+  <h2>🔐 Usa la llave para abrir</h2>
+  <div class="closed-book">
+    <div class="lock" id="lock"></div>
+    <div class="key" id="key"></div>
+  </div>
+</div>
 
-    <!-- PÁGINAS -->
+<!-- LIBRO -->
+<div class="scene hidden" id="scene">
+  <div class="book">
+
     <div class="page cover"></div>
 
     <div class="page">
       <img src="imagen1.jpg">
-      <p>Te extraño y quiero que me perdones... sé que soy un pelotudo pero era broma 💔</p>
+      <p>Te extraño y quiero que me perdones... sé que soy un pelotudo pero lo que te dije era mentira 💔</p>
     </div>
 
     <div class="page">
       <img src="imagen2.jpg">
-      <p>Te conozco desde los 5 años... nunca te dejé, sos importante para mí ♥️</p>
+      <p>Te conozco desde los 5 años y nunca nos separamos... sos muy importante para mí ♥️</p>
     </div>
 
     <div class="page">
       <img src="imagen3.jpg">
-      <p>Perdón por todo... yo te quiero mucho brother 🥺</p>
+      <p>Perdón por todo lo que hice... yo te quiero mucho brother 🥺</p>
     </div>
 
     <div class="page">
       <img src="imagen4.jpg">
-      <p>Sos fuerte, trabajadora y nunca te rendís. Siempre te levantás 💖</p>
+      <p>Sos fuerte, trabajadora y siempre salís adelante. Nunca te rendís 💖</p>
     </div>
 
     <div class="page back"></div>
