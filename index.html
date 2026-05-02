@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Carta 💌</title>
+
+<style>
+body{
+  margin:0;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(135deg,#ff9ecf,#ffc0cb);
+  overflow:hidden;
+}
+
+/* Corazones animados */
+body::before{
+  content:"💖 💕 💗 💓 💞";
+  position:absolute;
+  width:100%;
+  height:100%;
+  font-size:35px;
+  opacity:0.2;
+  animation: float 12s infinite linear;
+}
+
+@keyframes float{
+  from{transform: translateY(100%);}
+  to{transform: translateY(-100%);}
+}
+
+.container{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+  flex-direction:column;
+}
+
+/* Libro cerrado */
+.book{
+  width:280px;
+  height:180px;
+  background:#ffb6c1;
+  border-radius:12px;
+  position:relative;
+  box-shadow:0 10px 25px rgba(0,0,0,0.3);
+}
+
+.lock{
+  width:45px;
+  height:45px;
+  background:gold;
+  border-radius:50%;
+  position:absolute;
+  top:70px;
+  left:118px;
+}
+
+/* Llave */
+.key{
+  width:70px;
+  height:25px;
+  background:gold;
+  position:absolute;
+  bottom:-70px;
+  left:105px;
+  border-radius:10px;
+  touch-action:none;
+}
+
+.hidden{
+  display:none;
+}
+
+/* Libro */
+.book-container{
+  perspective:1200px;
+}
+
+.pages{
+  position:relative;
+  width:300px;
+  height:420px;
+}
+
+.page{
+  width:100%;
+  height:100%;
+  background:white;
+  border-radius:12px;
+  position:absolute;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  padding:10px;
+  transition: transform 0.8s;
+  backface-visibility:hidden;
+}
+
+.page img{
+  width:90%;
+  border-radius:10px;
+}
+
+.page p{
+  margin-top:10px;
+  text-align:center;
+  font-size:14px;
+}
+</style>
+</head>
+
+<body>
+
+<audio id="music" src="musica.mp3" loop></audio>
+
+<div class="container">
+
+  <!-- BLOQUEO -->
+  <div id="lockScreen">
+    <h2>🔐 Usa la llave para abrir el libro</h2>
+    <div class="book">
+      <div class="lock" id="lock"></div>
+      <div class="key" id="key"></div>
+    </div>
+  </div>
+
+  <!-- LIBRO -->
+  <div class="book-container hidden" id="bookContainer">
+    <div class="pages">
+
+      <div class="page" style="z-index:4;">
+        <img src="imagen1.jpg">
+        <p>Te extraño y quiero que me perdones... sé que soy un pelotudo, pero lo que te dije era mentira y me duele que lo hayas tomado en serio 💔</p>
+      </div>
+
+      <div class="page" style="z-index:3;">
+        <img src="imagen2.jpg">
+        <p>Te conozco desde los 5 años y nunca nos separamos... aunque parezca que sos más grande, jamás te dejé de lado. Sos muy importante para mí ♥️</p>
+      </div>
+
+      <div class="page" style="z-index:2;">
+        <img src="imagen3.jpg">
+        <p>Perdón por todo lo que hice... pero yo te quiero mucho brother 🥺</p>
+      </div>
+
+      <div class="page" style="z-index:1;">
+        <img src="imagen4.jpg">
+        <p>Admiro lo fuerte que sos. Sos una persona trabajadora que, sin importar lo difícil, siempre sigue adelante. Y aunque caigas, siempre te levantás... eso te hace increíble 💖</p>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<script>
+const key = document.getElementById("key");
+const lock = document.getElementById("lock");
+const lockScreen = document.getElementById("lockScreen");
+const bookContainer = document.getElementById("bookContainer");
+const music = document.getElementById("music");
+
+let offsetX = 0;
+let offsetY = 0;
+let dragging = false;
+
+/* TOUCH (ANDROID) */
+key.addEventListener("touchstart", (e)=>{
+  dragging = true;
+  const touch = e.touches[0];
+  offsetX = touch.clientX - key.offsetLeft;
+  offsetY = touch.clientY - key.offsetTop;
+});
+
+document.addEventListener("touchmove", (e)=>{
+  if(!dragging) return;
+
+  const touch = e.touches[0];
+  key.style.left = (touch.clientX - offsetX) + "px";
+  key.style.top = (touch.clientY - offsetY) + "px";
+
+  const keyRect = key.getBoundingClientRect();
+  const lockRect = lock.getBoundingClientRect();
+
+  if(
+    keyRect.left < lockRect.right &&
+    keyRect.right > lockRect.left &&
+    keyRect.top < lockRect.bottom &&
+    keyRect.bottom > lockRect.top
+  ){
+    openBook();
+  }
+});
+
+document.addEventListener("touchend", ()=> dragging = false);
+
+function openBook(){
+  lockScreen.classList.add("hidden");
+  bookContainer.classList.remove("hidden");
+
+  music.volume = 0;
+  music.play();
+
+  let vol = 0;
+  let fade = setInterval(()=>{
+    if(vol < 1){
+      vol += 0.05;
+      music.volume = vol;
+    } else {
+      clearInterval(fade);
+    }
+  },200);
+}
+
+/* PASAR PÁGINAS */
+let startX = 0;
+const pages = document.querySelectorAll(".page");
+
+pages.forEach((page)=>{
+  page.addEventListener("touchstart", e=>{
+    startX = e.touches[0].clientX;
+  });
+
+  page.addEventListener("touchend", e=>{
+    let endX = e.changedTouches[0].clientX;
+    if(startX - endX > 50){
+      page.style.transform = "rotateY(-180deg)";
+    }
+  });
+});
+</script>
+
+</body>
+  </html>
