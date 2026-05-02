@@ -1,225 +1,49 @@
-<!DOCTYPE html><html lang="es">
+<!DOCTYPE html>
+<html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Carta PRO 💌</title><style>
-body{
-  margin:0;
-  height:100vh;
-  background: radial-gradient(circle at top,#ff9ecf,#ff6fa5,#ff4d88);
-  font-family:sans-serif;
-  overflow:hidden;
-}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Libro 💌</title>
+  <link rel="stylesheet" href="style.css">
+</head>
 
-/* Corazones suaves */
-.heart{
-  position:absolute;
-  color:#fff;
-  opacity:0.15;
-  animation: float 10s linear infinite;
-}
+<body>
 
-@keyframes float{
-  from{transform:translateY(100vh) scale(0.8);}
-  to{transform:translateY(-10vh) scale(1.2);}
-}
+<audio id="music" src="musica.mp3" loop></audio>
 
-.container{
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  height:100%;
-  flex-direction:column;
-}
+<div class="music-btn" onclick="toggleMusic()">🎵</div>
 
-.book-closed{
-  width:260px;
-  height:160px;
-  background:#ffb6c1;
-  border-radius:10px;
-  box-shadow:0 20px 40px rgba(0,0,0,0.5);
-  position:relative;
-}
+<div class="scene">
+  <div class="book" id="book">
 
-.lock{
-  width:40px;
-  height:40px;
-  background:gold;
-  border-radius:50%;
-  position:absolute;
-  top:60px;
-  left:110px;
-}
+    <!-- PÁGINAS -->
+    <div class="page cover"></div>
 
-.key{
-  width:70px;
-  height:25px;
-  background:gold;
-  position:absolute;
-  bottom:-70px;
-  left:95px;
-  border-radius:8px;
-  touch-action:none;
-}
+    <div class="page">
+      <img src="imagen1.jpg">
+      <p>Te extraño y quiero que me perdones... sé que soy un pelotudo pero era broma 💔</p>
+    </div>
 
-.hidden{display:none;}
+    <div class="page">
+      <img src="imagen2.jpg">
+      <p>Te conozco desde los 5 años... nunca te dejé, sos importante para mí ♥️</p>
+    </div>
 
-.scene{
-  perspective:2500px;
-}
+    <div class="page">
+      <img src="imagen3.jpg">
+      <p>Perdón por todo... yo te quiero mucho brother 🥺</p>
+    </div>
 
-.book{
-  width:320px;
-  height:420px;
-  position:relative;
-  transform-style:preserve-3d;
-  animation: openBook 1.5s ease forwards;
-}
+    <div class="page">
+      <img src="imagen4.jpg">
+      <p>Sos fuerte, trabajadora y nunca te rendís. Siempre te levantás 💖</p>
+    </div>
 
-@keyframes openBook{
-  from{transform:rotateY(90deg); opacity:0;}
-  to{transform:rotateY(0deg); opacity:1;}
-}
-
-.page{
-  width:100%;
-  height:100%;
-  position:absolute;
-  background:white;
-  border-radius:10px;
-  transform-origin:left;
-  transition:transform 1s ease;
-  backface-visibility:hidden;
-  box-shadow:0 15px 30px rgba(0,0,0,0.4);
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-}
-
-.page img{
-  width:85%;
-  border-radius:10px;
-}
-
-.page p{
-  padding:10px;
-  text-align:center;
-  opacity:0;
-  animation: fadeText 2s forwards;
-}
-
-@keyframes fadeText{
-  to{opacity:1;}
-}
-
-.music-btn{
-  position:fixed;
-  top:20px;
-  right:20px;
-  background:#fff;
-  border-radius:50%;
-  width:50px;
-  height:50px;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  box-shadow:0 5px 15px rgba(0,0,0,0.3);
-}
-
-</style></head>
-<body><audio id="music" src="musica.mp3" loop></audio>
-
-<div class="music-btn" onclick="toggleMusic()">🎵</div><div class="container"><div id="lockScreen">
-  <h2 style="color:white;">🔐 Usa la llave</h2>
-  <div class="book-closed">
-    <div class="lock" id="lock"></div>
-    <div class="key" id="key"></div>
-  </div>
-</div><div class="scene hidden" id="scene">
-  <div class="book" id="book"><div class="page" style="z-index:4;">
-  <img src="imagen1.jpg">
-  <p>Te extraño y quiero que me perdones... sé que soy un pelotudo pero era broma 💔</p>
-</div>
-
-<div class="page" style="z-index:3;">
-  <img src="imagen2.jpg">
-  <p>Te conozco desde los 5 años... nunca te dejé, sos importante para mí ♥️</p>
-</div>
-
-<div class="page" style="z-index:2;">
-  <img src="imagen3.jpg">
-  <p>Perdón por todo... yo te quiero mucho brother 🥺</p>
-</div>
-
-<div class="page" style="z-index:1;">
-  <img src="imagen4.jpg">
-  <p>Sos fuerte, trabajadora y nunca te rendís. Siempre te levantás 💖</p>
-</div>
+    <div class="page back"></div>
 
   </div>
-</div></div><script>
-const key=document.getElementById("key");
-const lock=document.getElementById("lock");
-const scene=document.getElementById("scene");
-const lockScreen=document.getElementById("lockScreen");
-const music=document.getElementById("music");
+</div>
 
-let dragging=false,offsetX=0,offsetY=0;
-
-key.addEventListener("touchstart",e=>{
- dragging=true;
- let t=e.touches[0];
- offsetX=t.clientX-key.offsetLeft;
- offsetY=t.clientY-key.offsetTop;
-});
-
-document.addEventListener("touchmove",e=>{
- if(!dragging)return;
- let t=e.touches[0];
- key.style.left=(t.clientX-offsetX)+"px";
- key.style.top=(t.clientY-offsetY)+"px";
-
- let k=key.getBoundingClientRect();
- let l=lock.getBoundingClientRect();
-
- if(k.left<l.right&&k.right>l.left&&k.top<l.bottom&&k.bottom>l.top){
-   openBook();
- }
-});
-
-document.addEventListener("touchend",()=>dragging=false);
-
-function openBook(){
- lockScreen.classList.add("hidden");
- scene.classList.remove("hidden");
- music.play().catch(()=>{});
-}
-
-function toggleMusic(){
- if(music.paused){music.play();}
- else{music.pause();}
-}
-
-let pages=document.querySelectorAll(".page");
-let index=0;
-
-scene.addEventListener("touchend",()=>{
- if(index<pages.length){
-   pages[index].style.transform="rotateY(-180deg)";
-   index++;
- }
-});
-
-/* corazones dinámicos */
-for(let i=0;i<15;i++){
- let h=document.createElement("div");
- h.className="heart";
- h.innerHTML="💖";
- h.style.left=Math.random()*100+"%";
- h.style.fontSize=(20+Math.random()*20)+"px";
- h.style.animationDuration=(6+Math.random()*6)+"s";
- document.body.appendChild(h);
-}
-</script></body>
+<script src="script.js"></script>
+</body>
 </html>
