@@ -5,248 +5,262 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Para Mi Amiga</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@400;600&display=swap');
-
+    * { margin:0; padding:0; box-sizing:border-box; }
     body {
-      margin: 0;
+      background: radial-gradient(circle at center, #2a0033, #000);
       height: 100vh;
-      background: linear-gradient(#1a001a, #330022);
+      overflow: hidden;
+      font-family: 'Segoe UI', sans-serif;
       display: flex;
       align-items: center;
       justify-content: center;
-      overflow: hidden;
       position: relative;
-      font-family: 'Poppins', sans-serif;
     }
 
-    canvas#particles { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; }
-
-    .notebook {
-      width: 380px;
-      max-width: 92vw;
-      height: 520px;
-      background: #fff0f5;
-      border: 12px solid #ff99bb;
-      border-radius: 15px;
-      box-shadow: 0 25px 50px rgba(0,0,0,0.6);
-      position: relative;
-      z-index: 2;
-      overflow: hidden;
-    }
-
-    .spiral {
+    /* Partículas de fondo */
+    #particles {
       position: absolute;
-      left: 50%;
-      top: 0;
-      bottom: 0;
-      width: 18px;
-      background: repeating-linear-gradient(
-        #333 0px,
-        #333 12px,
-        #ddd 12px,
-        #ddd 24px
-      );
-      transform: translateX(-50%);
-      z-index: 10;
-      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+      top: 0; left: 0; width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .book-container {
+      width: 90vw;
+      max-width: 460px;
+      height: 620px;
+      perspective: 2500px;
+      z-index: 2;
+    }
+
+    .book {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 0.8s cubic-bezier(0.7, 0, 0.3, 1);
     }
 
     .page {
       position: absolute;
-      inset: 0;
-      background: white;
-      padding: 35px 25px 60px;
+      width: 100%;
+      height: 100%;
+      background: #fffef8;
+      border-radius: 12px 8px 8px 12px;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+      overflow: hidden;
       display: none;
       flex-direction: column;
-      box-shadow: inset 0 0 30px rgba(0,0,0,0.1);
+      backface-visibility: hidden;
     }
     .page.active { display: flex; }
 
     .cover {
-      background: linear-gradient(135deg, #ff99cc, #ff3366);
+      background: linear-gradient(135deg, #ff99cc, #c71585);
       color: white;
       text-align: center;
+      justify-content: center;
+    }
+
+    .content {
+      padding: 30px 25px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
     }
 
     .photo {
       width: 100%;
-      height: 210px;
+      height: 240px;
       object-fit: cover;
-      border-radius: 10px;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.25);
       margin: 15px 0;
-      border: 8px solid #ffe6f0;
     }
 
-    h1, h2 { font-family: 'Great Vibes', cursive; }
-    h1 { font-size: 2.4em; margin: 15px 0; }
-    h2 { color: #c71585; text-align: center; font-size: 1.8em; }
+    h2 { color: #c71585; text-align: center; margin: 12px 0; font-size: 1.6em; }
+    .text { line-height: 1.65; color: #333; font-size: 1.08em; text-align: justify; }
 
-    .text { flex: 1; line-height: 1.7; color: #444; font-size: 1.05em; }
-
-    .buttons {
-      position: absolute;
-      bottom: 18px;
-      left: 0; right: 0;
+    .nav {
+      padding: 15px 25px;
       display: flex;
       justify-content: space-between;
-      padding: 0 25px;
-      z-index: 20;
+      background: rgba(255,255,255,0.9);
     }
     button {
-      background: #ff6699;
+      background: #c71585;
       color: white;
       border: none;
-      padding: 10px 24px;
-      border-radius: 30px;
-      font-weight: bold;
-      box-shadow: 0 5px 15px rgba(255,102,153,0.4);
+      padding: 12px 30px;
+      border-radius: 50px;
+      font-size: 1.05em;
+      cursor: pointer;
+      box-shadow: 0 6px 15px rgba(199,21,133,0.4);
     }
+    button:active { transform: scale(0.95); }
   </style>
 </head>
 <body>
 
   <canvas id="particles"></canvas>
 
-  <div class="notebook">
-    <div class="spiral"></div>
+  <div class="book-container">
+    <div class="book" id="book">
 
-    <!-- Portada -->
-    <div class="page cover active" id="p0">
-      <div style="text-align:center; margin-top:60px;">
-        <h1>Para el Amor de mi Amiga</h1>
-        <p>He creado esta pequeña historia<br>para recordarte cuánto te aprecio</p>
-        <img src="Foto1.jpg" class="photo" style="border-color:#fff;">
-        <button onclick="next()" style="margin-top:40px;">Abrir el libro</button>
+      <!-- Portada -->
+      <div class="page cover active" id="p0">
+        <div style="padding: 50px 30px; text-align:center;">
+          <h1 style="font-size:2.2em; margin-bottom:20px;">Para Mi Amiga</h1>
+          <p style="font-size:1.2em;">Un pequeño libro hecho con cariño</p>
+          <img src="Foto1.jpg" style="width:75%; border-radius:15px; margin:25px 0; box-shadow:0 15px 30px rgba(0,0,0,0.4);">
+          <button onclick="nextPage()" style="margin-top:30px; padding:15px 40px;">Abrir Libro</button>
+        </div>
       </div>
-    </div>
 
-    <!-- Páginas internas -->
-    <div class="page" id="p1">
-      <h2>Te pido perdón</h2>
-      <img src="Foto1.jpg" class="photo">
-      <p class="text">Te extraño y quiero que me perdones, sé que soy un pelotudo... pero lo que te dije era todo mentira. Me duele que lo hayas tomado en serio y de verdad te pido perdón 💔</p>
-      <div class="buttons">
-        <button onclick="prev()">Anterior</button>
-        <button onclick="next()">Siguiente</button>
+      <!-- Páginas -->
+      <div class="page" id="p1">
+        <div class="content">
+          <h2>Te pido perdón</h2>
+          <img src="Foto1.jpg" class="photo">
+          <p class="text">Te extraño y quiero que me perdones, sé que soy un pelotudo... pero lo que te dije era todo mentira. Me duele que lo hayas tomado en serio y de verdad te pido perdón 💔</p>
+        </div>
+        <div class="nav">
+          <button onclick="prevPage()">← Anterior</button>
+          <button onclick="nextPage()">Siguiente →</button>
+        </div>
       </div>
-    </div>
 
-    <div class="page" id="p2">
-      <h2>Nuestra amistad</h2>
-      <img src="Foto2.jpg" class="photo">
-      <p class="text">Te conozco desde los 5 años y desde ahí nunca nos separamos. Aunque parezca que sos más grande que yo, jamás te dejé de lado por nadie... sos muy importante para mí ♥️</p>
-      <div class="buttons">
-        <button onclick="prev()">Anterior</button>
-        <button onclick="next()">Siguiente</button>
+      <div class="page" id="p2">
+        <div class="content">
+          <h2>Nuestra amistad</h2>
+          <img src="Foto2.jpg" class="photo">
+          <p class="text">Te conozco desde los 5 años y desde ahí nunca nos separamos. Aunque parezca que sos más grande que yo, jamás te dejé de lado por nadie... sos muy importante para mí ♥️</p>
+        </div>
+        <div class="nav">
+          <button onclick="prevPage()">← Anterior</button>
+          <button onclick="nextPage()">Siguiente →</button>
+        </div>
       </div>
-    </div>
 
-    <div class="page" id="p3">
-      <h2>Perdón</h2>
-      <img src="Foto3.jpg" class="photo">
-      <p class="text">Perdón por todo lo que hice... pero yo te quiero mucho brother 🥺</p>
-      <div class="buttons">
-        <button onclick="prev()">Anterior</button>
-        <button onclick="next()">Siguiente</button>
+      <div class="page" id="p3">
+        <div class="content">
+          <h2>Perdón</h2>
+          <img src="Foto3.jpg" class="photo">
+          <p class="text">Perdón por todo lo que hice... pero yo te quiero mucho brother 🥺</p>
+        </div>
+        <div class="nav">
+          <button onclick="prevPage()">← Anterior</button>
+          <button onclick="nextPage()">Siguiente →</button>
+        </div>
       </div>
-    </div>
 
-    <div class="page" id="p4">
-      <h2>Te admiro</h2>
-      <img src="Foto4.jpg" class="photo">
-      <p class="text">Admiro lo fuerte que sos. Sos una persona muy trabajadora que, sin importar su situación, siempre sigue adelante. Y aunque tengas bajones, siempre te levantás... eso te hace increíble 💖</p>
-      <div class="buttons">
-        <button onclick="prev()">Anterior</button>
-        <button onclick="finish()">Finalizar</button>
+      <div class="page" id="p4">
+        <div class="content">
+          <h2>Te admiro</h2>
+          <img src="Foto4.jpg" class="photo">
+          <p class="text">Admiro lo fuerte que sos. Sos una persona muy trabajadora que, sin importar su situación, siempre sigue adelante. Y aunque tengas bajones, siempre te levantás... eso te hace increíble 💖</p>
+        </div>
+        <div class="nav">
+          <button onclick="prevPage()">← Anterior</button>
+          <button onclick="finish()">Cerrar Libro</button>
+        </div>
       </div>
+
     </div>
   </div>
 
-  <audio id="music" loop><source src="musica.mp3" type="audio/mpeg"></audio>
+  <audio id="music" loop>
+    <source src="musica.mp3" type="audio/mpeg">
+  </audio>
 
   <script>
-    // Partículas (corazones + golosinas)
+    // Canvas para partículas (corazones, golosinas, chocolates)
     const canvas = document.getElementById('particles');
     const ctx = canvas.getContext('2d');
-    let w = canvas.width = window.innerWidth;
-    let h = canvas.height = window.innerHeight;
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
     const particles = [];
-    const items = ['❤️','💖','🍫','🍭','🍬','🌟'];
+    const emojis = ['❤️', '🍫', '🍭', '🍬', '💖', '🌟'];
 
     class Particle {
       constructor() {
-        this.reset();
-      }
-      reset() {
-        this.x = Math.random() * w;
-        this.y = Math.random() * h - h;
-        this.size = Math.random() * 22 + 16;
-        this.speed = Math.random() * 2.8 + 1.2;
-        this.emoji = items[Math.floor(Math.random()*items.length)];
-        this.angle = 0;
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height - 100;
+        this.size = Math.random() * 25 + 15;
+        this.speed = Math.random() * 2.5 + 1;
+        this.emoji = emojis[Math.floor(Math.random() * emojis.length)];
+        this.angle = Math.random() * 360;
+        this.swing = Math.random() * 0.02 + 0.01;
       }
       update() {
         this.y += this.speed;
-        this.angle += 0.03;
-        if (this.y > h + 50) this.reset();
+        this.angle += this.swing;
+        this.x += Math.sin(this.angle) * 1.5;
+        if (this.y > canvas.height) this.y = -50;
       }
       draw() {
         ctx.save();
         ctx.translate(this.x, this.y);
-        ctx.rotate(Math.sin(this.angle)*0.3);
+        ctx.rotate(Math.sin(this.angle) * 0.2);
         ctx.font = `${this.size}px Arial`;
         ctx.fillText(this.emoji, 0, 0);
         ctx.restore();
       }
     }
 
-    for(let i=0; i<40; i++) particles.push(new Particle());
-
-    function loop() {
-      ctx.clearRect(0,0,w,h);
-      particles.forEach(p => { p.update(); p.draw(); });
-      requestAnimationFrame(loop);
+    function animateParticles() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      if (particles.length < 35) particles.push(new Particle());
+      for (let i = 0; i < particles.length; i++) {
+        particles[i].update();
+        particles[i].draw();
+      }
+      requestAnimationFrame(animateParticles);
     }
-    loop();
+    animateParticles();
 
-    window.addEventListener('resize', () => {
-      w = canvas.width = window.innerWidth;
-      h = canvas.height = window.innerHeight;
-    });
-
-    // Navegación del libro
-    let current = 0;
+    // Control del libro
+    let currentPage = 0;
     const pages = document.querySelectorAll('.page');
     const music = document.getElementById('music');
 
-    function show(n) {
+    function showPage(n) {
       pages.forEach(p => p.classList.remove('active'));
       pages[n].classList.add('active');
-      current = n;
+      currentPage = n;
     }
 
-    function next() {
-      if (current < pages.length-1) {
-        show(current + 1);
-        if (current === 1) music.play();
+    function nextPage() {
+      if (currentPage < pages.length - 1) {
+        showPage(currentPage + 1);
+        if (currentPage === 1) music.play().catch(()=>{});
       }
     }
 
-    function prev() {
-      if (current > 0) show(current - 1);
+    function prevPage() {
+      if (currentPage > 0) showPage(currentPage - 1);
     }
 
     function finish() {
-      alert("Gracias por ser mi amiga. Siempre te voy a apreciar ❤️");
+      alert("Gracias por ser mi amiga. Siempre vas a ser importante para mí ❤️");
       music.pause();
     }
 
-    // Swipe
-    let startX = 0;
-    document.querySelector('.notebook').addEventListener('touchstart', e => startX = e.touches[0].clientX);
-    document.querySelector('.notebook').addEventListener('touchend', e => {
-      if (e.changedTouches[0].clientX < startX - 50) next();
-      if (e.changedTouches[0].clientX > startX + 50) prev();
+    // Swipe en celular
+    let touchStartX = 0;
+    document.querySelector('.book-container').addEventListener('touchstart', e => {
+      touchStartX = e.changedTouches[0].screenX;
+    });
+    document.querySelector('.book-container').addEventListener('touchend', e => {
+      const diff = touchStartX - e.changedTouches[0].screenX;
+      if (diff > 60) nextPage();
+      if (diff < -60) prevPage();
+    });
+
+    window.addEventListener('resize', () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
     });
   </script>
 </body>
