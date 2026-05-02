@@ -1,267 +1,253 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Para Mi Amiga</title>
-  <style>
-    * { margin:0; padding:0; box-sizing:border-box; }
-    body {
-      background: radial-gradient(circle at center, #2a0033, #000);
-      height: 100vh;
-      overflow: hidden;
-      font-family: 'Segoe UI', sans-serif;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Libro para vos</title>
 
-    /* Partículas de fondo */
-    #particles {
-      position: absolute;
-      top: 0; left: 0; width: 100%; height: 100%;
-      pointer-events: none;
-      z-index: 1;
-    }
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
 
-    .book-container {
-      width: 90vw;
-      max-width: 460px;
-      height: 620px;
-      perspective: 2500px;
-      z-index: 2;
-    }
+body{
+  background: radial-gradient(circle,#2a0033,#000);
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  overflow:hidden;
+  font-family: Georgia, serif;
+}
 
-    .book {
-      width: 100%;
-      height: 100%;
-      position: relative;
-      transform-style: preserve-3d;
-      transition: transform 0.8s cubic-bezier(0.7, 0, 0.3, 1);
-    }
+/* CONTENEDOR */
+.book-container{
+  width:95vw;
+  max-width:420px;
+  height:600px;
+}
 
-    .page {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      background: #fffef8;
-      border-radius: 12px 8px 8px 12px;
-      box-shadow: 0 15px 35px rgba(0,0,0,0.5);
-      overflow: hidden;
-      display: none;
-      flex-direction: column;
-      backface-visibility: hidden;
-    }
-    .page.active { display: flex; }
+/* PÁGINAS */
+.page{
+  position:absolute;
+  width:95vw;
+  max-width:420px;
+  height:600px;
 
-    .cover {
-      background: linear-gradient(135deg, #ff99cc, #c71585);
-      color: white;
-      text-align: center;
-      justify-content: center;
-    }
+  background:
+    repeating-linear-gradient(0deg,rgba(120,90,60,0.2) 0px,rgba(120,90,60,0.2) 1px,transparent 1px,transparent 28px),
+    repeating-linear-gradient(90deg,rgba(120,90,60,0.1) 0px,rgba(120,90,60,0.1) 1px,transparent 1px,transparent 28px),
+    linear-gradient(135deg,#f5e6c8,#e6d3a3);
 
-    .content {
-      padding: 30px 25px;
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-    }
+  border-radius:12px;
+  box-shadow:0 15px 35px rgba(0,0,0,0.6);
+  display:none;
+  flex-direction:column;
+  overflow:hidden;
+}
 
-    .photo {
-      width: 100%;
-      height: 240px;
-      object-fit: cover;
-      border-radius: 12px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.25);
-      margin: 15px 0;
-    }
+.page.active{display:flex;}
 
-    h2 { color: #c71585; text-align: center; margin: 12px 0; font-size: 1.6em; }
-    .text { line-height: 1.65; color: #333; font-size: 1.08em; text-align: justify; }
+/* FOTO */
+.photo{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
 
-    .nav {
-      padding: 15px 25px;
-      display: flex;
-      justify-content: space-between;
-      background: rgba(255,255,255,0.9);
-    }
-    button {
-      background: #c71585;
-      color: white;
-      border: none;
-      padding: 12px 30px;
-      border-radius: 50px;
-      font-size: 1.05em;
-      cursor: pointer;
-      box-shadow: 0 6px 15px rgba(199,21,133,0.4);
-    }
-    button:active { transform: scale(0.95); }
-  </style>
+/* CONTENIDO TEXTO */
+.content{
+  padding:25px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  height:100%;
+}
+
+h2{
+  text-align:center;
+  margin-bottom:15px;
+  color:#5a2d0c;
+}
+
+.text{
+  font-style:italic;
+  line-height:1.8;
+  color:#3b2a1a;
+  font-size:1.1em;
+  text-align:justify;
+}
+
+/* RESALTADOS */
+.highlight{
+  color:#b22222;
+  font-weight:bold;
+  font-style:normal;
+}
+
+.soft{
+  color:#8b4513;
+}
+
+/* BOTONES */
+.nav{
+  position:absolute;
+  bottom:10px;
+  width:100%;
+  display:flex;
+  justify-content:space-between;
+  padding:0 15px;
+}
+
+button{
+  background:#5a2d0c;
+  color:#fff;
+  border:none;
+  padding:8px 18px;
+  border-radius:20px;
+}
+
+/* PORTADA */
+.cover{
+  background:linear-gradient(135deg,#ff99cc,#c71585);
+  color:white;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+}
+</style>
 </head>
+
 <body>
 
-  <canvas id="particles"></canvas>
+<div class="book-container">
 
-  <div class="book-container">
-    <div class="book" id="book">
+<!-- PORTADA -->
+<div class="page cover active">
+  <h1>Para vos 💖</h1>
+  <p>Un pequeño libro...</p>
+  <br>
+  <button onclick="nextPage()">Abrir</button>
+</div>
 
-      <!-- Portada -->
-      <div class="page cover active" id="p0">
-        <div style="padding: 50px 30px; text-align:center;">
-          <h1 style="font-size:2.2em; margin-bottom:20px;">Para Mi Amiga</h1>
-          <p style="font-size:1.2em;">Un pequeño libro hecho con cariño</p>
-          <img src="Foto1.jpg" style="width:75%; border-radius:15px; margin:25px 0; box-shadow:0 15px 30px rgba(0,0,0,0.4);">
-          <button onclick="nextPage()" style="margin-top:30px; padding:15px 40px;">Abrir Libro</button>
-        </div>
-      </div>
-
-      <!-- Páginas -->
-      <div class="page" id="p1">
-        <div class="content">
-          <h2>Te pido perdón</h2>
-          <img src="Foto1.jpg" class="photo">
-          <p class="text">Te extraño y quiero que me perdones, sé que soy un pelotudo... pero lo que te dije era todo mentira. Me duele que lo hayas tomado en serio y de verdad te pido perdón 💔</p>
-        </div>
-        <div class="nav">
-          <button onclick="prevPage()">← Anterior</button>
-          <button onclick="nextPage()">Siguiente →</button>
-        </div>
-      </div>
-
-      <div class="page" id="p2">
-        <div class="content">
-          <h2>Nuestra amistad</h2>
-          <img src="Foto2.jpg" class="photo">
-          <p class="text">Te conozco desde los 5 años y desde ahí nunca nos separamos. Aunque parezca que sos más grande que yo, jamás te dejé de lado por nadie... sos muy importante para mí ♥️</p>
-        </div>
-        <div class="nav">
-          <button onclick="prevPage()">← Anterior</button>
-          <button onclick="nextPage()">Siguiente →</button>
-        </div>
-      </div>
-
-      <div class="page" id="p3">
-        <div class="content">
-          <h2>Perdón</h2>
-          <img src="Foto3.jpg" class="photo">
-          <p class="text">Perdón por todo lo que hice... pero yo te quiero mucho brother 🥺</p>
-        </div>
-        <div class="nav">
-          <button onclick="prevPage()">← Anterior</button>
-          <button onclick="nextPage()">Siguiente →</button>
-        </div>
-      </div>
-
-      <div class="page" id="p4">
-        <div class="content">
-          <h2>Te admiro</h2>
-          <img src="Foto4.jpg" class="photo">
-          <p class="text">Admiro lo fuerte que sos. Sos una persona muy trabajadora que, sin importar su situación, siempre sigue adelante. Y aunque tengas bajones, siempre te levantás... eso te hace increíble 💖</p>
-        </div>
-        <div class="nav">
-          <button onclick="prevPage()">← Anterior</button>
-          <button onclick="finish()">Cerrar Libro</button>
-        </div>
-      </div>
-
-    </div>
+<!-- FOTO 1 -->
+<div class="page">
+  <img src="Foto1.jpg" class="photo">
+  <div class="nav">
+    <button onclick="prevPage()">←</button>
+    <button onclick="nextPage()">→</button>
   </div>
+</div>
 
-  <audio id="music" loop>
-    <source src="musica.mp3" type="audio/mpeg">
-  </audio>
+<!-- TEXTO 1 -->
+<div class="page">
+  <div class="content">
+    <h2>Perdón</h2>
+    <p class="text">
+      <span class="highlight">Te extraño</span> y quiero que me perdones...
+      sé que soy un pelotudo, pero lo que te dije era
+      <span class="highlight">todo mentira</span>.
+      <br><br>
+      <span class="soft">Me duele que lo hayas tomado en serio</span> 💔
+    </p>
+  </div>
+  <div class="nav">
+    <button onclick="prevPage()">←</button>
+    <button onclick="nextPage()">→</button>
+  </div>
+</div>
 
-  <script>
-    // Canvas para partículas (corazones, golosinas, chocolates)
-    const canvas = document.getElementById('particles');
-    const ctx = canvas.getContext('2d');
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+<!-- FOTO 2 -->
+<div class="page">
+  <img src="Foto2.jpg" class="photo">
+  <div class="nav">
+    <button onclick="prevPage()">←</button>
+    <button onclick="nextPage()">→</button>
+  </div>
+</div>
 
-    const particles = [];
-    const emojis = ['❤️', '🍫', '🍭', '🍬', '💖', '🌟'];
+<!-- TEXTO 2 -->
+<div class="page">
+  <div class="content">
+    <h2>Nosotros</h2>
+    <p class="text">
+      Te conozco desde los 5 años...
+      y nunca nos separamos.
+      <br><br>
+      <span class="highlight">Sos muy importante para mí</span> ♥️
+    </p>
+  </div>
+  <div class="nav">
+    <button onclick="prevPage()">←</button>
+    <button onclick="nextPage()">→</button>
+  </div>
+</div>
 
-    class Particle {
-      constructor() {
-        this.x = Math.random() * canvas.width;
-        this.y = Math.random() * canvas.height - 100;
-        this.size = Math.random() * 25 + 15;
-        this.speed = Math.random() * 2.5 + 1;
-        this.emoji = emojis[Math.floor(Math.random() * emojis.length)];
-        this.angle = Math.random() * 360;
-        this.swing = Math.random() * 0.02 + 0.01;
-      }
-      update() {
-        this.y += this.speed;
-        this.angle += this.swing;
-        this.x += Math.sin(this.angle) * 1.5;
-        if (this.y > canvas.height) this.y = -50;
-      }
-      draw() {
-        ctx.save();
-        ctx.translate(this.x, this.y);
-        ctx.rotate(Math.sin(this.angle) * 0.2);
-        ctx.font = `${this.size}px Arial`;
-        ctx.fillText(this.emoji, 0, 0);
-        ctx.restore();
-      }
-    }
+<!-- FINAL -->
+<div class="page">
+  <div class="content">
+    <h2>💖</h2>
+    <p class="text">
+      Gracias por estar siempre...
+      <br><br>
+      <span class="highlight">Te quiero mucho</span>
+    </p>
+  </div>
+  <div class="nav">
+    <button onclick="prevPage()">←</button>
+    <button onclick="finish()">Fin</button>
+  </div>
+</div>
 
-    function animateParticles() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      if (particles.length < 35) particles.push(new Particle());
-      for (let i = 0; i < particles.length; i++) {
-        particles[i].update();
-        particles[i].draw();
-      }
-      requestAnimationFrame(animateParticles);
-    }
-    animateParticles();
+</div>
 
-    // Control del libro
-    let currentPage = 0;
-    const pages = document.querySelectorAll('.page');
-    const music = document.getElementById('music');
+<audio id="music" loop>
+  <source src="musica.mp3" type="audio/mpeg">
+</audio>
 
-    function showPage(n) {
-      pages.forEach(p => p.classList.remove('active'));
-      pages[n].classList.add('active');
-      currentPage = n;
-    }
+<script>
+let pages = document.querySelectorAll(".page");
+let current = 0;
+let music = document.getElementById("music");
 
-    function nextPage() {
-      if (currentPage < pages.length - 1) {
-        showPage(currentPage + 1);
-        if (currentPage === 1) music.play().catch(()=>{});
-      }
-    }
+function show(n){
+  pages.forEach(p=>p.classList.remove("active"));
+  pages[n].classList.add("active");
+}
 
-    function prevPage() {
-      if (currentPage > 0) showPage(currentPage - 1);
-    }
+function nextPage(){
+  if(current < pages.length-1){
+    current++;
+    show(current);
+    if(current==1) music.play().catch(()=>{});
+  }
+}
 
-    function finish() {
-      alert("Gracias por ser mi amiga. Siempre vas a ser importante para mí ❤️");
-      music.pause();
-    }
+function prevPage(){
+  if(current>0){
+    current--;
+    show(current);
+  }
+}
 
-    // Swipe en celular
-    let touchStartX = 0;
-    document.querySelector('.book-container').addEventListener('touchstart', e => {
-      touchStartX = e.changedTouches[0].screenX;
-    });
-    document.querySelector('.book-container').addEventListener('touchend', e => {
-      const diff = touchStartX - e.changedTouches[0].screenX;
-      if (diff > 60) nextPage();
-      if (diff < -60) prevPage();
-    });
+function finish(){
+  alert("Siempre vas a ser importante ❤️");
+  music.pause();
+}
 
-    window.addEventListener('resize', () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    });
-  </script>
+/* SWIPE */
+let startX=0;
+
+document.addEventListener("touchstart",e=>{
+  startX=e.touches[0].clientX;
+});
+
+document.addEventListener("touchend",e=>{
+  let endX=e.changedTouches[0].clientX;
+  if(startX-endX>50) nextPage();
+  if(endX-startX>50) prevPage();
+});
+</script>
+
 </body>
 </html>
