@@ -15,10 +15,10 @@ body{
   justify-content:center;
   align-items:center;
   overflow:hidden;
-  font-family:'Segoe UI', sans-serif;
+  font-family:'Segoe UI',sans-serif;
 }
 
-/* 🌌 Fondo */
+/* 🌌 Fondo animado */
 canvas{
   position:absolute;
   width:100%;
@@ -29,71 +29,35 @@ canvas{
 /* 📖 LIBRO */
 .book{
   width:95vw;
-  max-width:450px;
-  height:600px;
-  position:relative;
-  perspective:2000px;
+  max-width:500px;
+  height:90vh;
+  max-height:650px;
+  display:flex;
+  border-radius:12px;
+  overflow:hidden;
+  box-shadow:0 20px 40px rgba(0,0,0,0.7);
   z-index:2;
 }
 
-/* 📄 HOJAS */
-.page{
-  position:absolute;
-  width:100%;
-  height:100%;
-  transform-origin:left;
-  transform-style:preserve-3d;
-  transition:transform 1s ease;
-}
-
-/* profundidad correcta */
-.page:nth-child(1){z-index:3;}
-.page:nth-child(2){z-index:2;}
-.page:nth-child(3){z-index:1;}
-
-/* VOLTEO */
-.page.flipped{
-  transform:rotateY(-180deg);
-}
-
-/* CARAS */
-.side{
-  position:absolute;
-  width:100%;
-  height:100%;
-  backface-visibility:hidden;
-  display:flex;
-}
-
-/* FRENTE (IZQUIERDA FOTO) */
-.front{
-  background:#111;
-}
-
-/* ATRÁS (DERECHA TEXTO) */
-.back{
-  transform:rotateY(180deg);
-}
-
-/* MITADES */
-.left, .right{
+/* 📸 LADO IZQUIERDO */
+.left{
   width:50%;
   height:100%;
+  background:#000;
 }
 
-/* FOTO */
 .left img{
   width:100%;
   height:100%;
   object-fit:cover;
 }
 
-/* HOJA TEXTO */
+/* 📜 LADO DERECHO (HOJA) */
 .right{
+  width:50%;
+  height:100%;
   padding:20px;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
+  overflow-y:auto;
 
   background:
     repeating-linear-gradient(0deg,rgba(120,90,60,0.2) 0px,rgba(120,90,60,0.2) 1px,transparent 1px,transparent 28px),
@@ -101,23 +65,21 @@ canvas{
     linear-gradient(135deg,#f5e6c8,#e6d3a3);
 }
 
-/* TEXTO LINDO */
+/* ✍️ TEXTO */
 h2{
-  margin-bottom:10px;
-  color:#5a2d0c;
   text-align:center;
-  font-family:'Segoe UI', sans-serif;
+  color:#5a2d0c;
+  margin-bottom:10px;
 }
 
 .text{
-  font-family:'Segoe UI', sans-serif;
   font-style:italic;
-  letter-spacing:0.5px;
-  line-height:1.7;
+  line-height:1.8;
   color:#3b2a1a;
+  font-size:1.05em;
 }
 
-/* RESALTADO */
+/* ✨ RESALTADOS */
 .highlight{
   color:#b22222;
   font-weight:bold;
@@ -139,7 +101,7 @@ button{
   background:#5a2d0c;
   color:#fff;
   border:none;
-  padding:8px 18px;
+  padding:10px 18px;
   border-radius:20px;
 }
 </style>
@@ -149,110 +111,46 @@ button{
 
 <canvas id="bg"></canvas>
 
+<!-- 📖 LIBRO -->
 <div class="book">
 
-<!-- HOJA 1 -->
-<div class="page">
-  <div class="side front">
-    <div class="left">
-      <img src="Foto1.jpg">
-    </div>
-    <div class="right">
-      <h2>Perdón</h2>
-      <p class="text">
-        <span class="highlight">Te extraño</span> y quiero que me perdones...
-        lo que dije era <span class="highlight">mentira</span>.
-      </p>
-    </div>
+  <!-- IZQUIERDA FOTO -->
+  <div class="left">
+    <img src="Foto1.jpg">
   </div>
 
-  <div class="side back">
-    <div class="left">
-      <img src="Foto2.jpg">
-    </div>
-    <div class="right">
-      <h2>Nosotros</h2>
-      <p class="text">
-        Desde chicos...
-        <span class="highlight">siempre juntos</span> 💖
-      </p>
-    </div>
+  <!-- DERECHA TEXTO -->
+  <div class="right">
+    <h2>Perdón</h2>
+    <p class="text">
+      <span class="highlight">Te extraño</span> y quiero que me perdones,
+      sé que soy un pelotudo... pero lo que te dije era
+      <span class="highlight">todo mentira</span>.
+      <br><br>
+      Me duele que lo hayas tomado en serio y de verdad
+      te pido perdón 💔
+      <br><br>
+      Te conozco desde los 5 años y nunca nos separamos,
+      <span class="highlight">sos muy importante para mí</span>.
+    </p>
   </div>
-</div>
-
-<!-- HOJA 2 -->
-<div class="page">
-  <div class="side front">
-    <div class="left">
-      <img src="Foto3.jpg">
-    </div>
-    <div class="right">
-      <h2>Perdón otra vez</h2>
-      <p class="text">
-        Nunca fue mi intención lastimarte...
-        <span class="highlight">te quiero mucho</span>.
-      </p>
-    </div>
-  </div>
-
-  <div class="side back">
-    <div class="left">
-      <img src="Foto4.jpg">
-    </div>
-    <div class="right">
-      <h2>Final</h2>
-      <p class="text">
-        Gracias por todo 💖
-      </p>
-    </div>
-  </div>
-</div>
 
 </div>
 
 <div class="controls">
-  <button onclick="prev()">←</button>
-  <button onclick="next()">→</button>
+  <button onclick="alert('Podés agregar más páginas después')">←</button>
+  <button onclick="alert('Después te hago las páginas animadas bien')">→</button>
 </div>
 
-<audio id="music" loop>
+<audio autoplay loop>
   <source src="musica.mp3">
 </audio>
 
 <script>
-let pages=document.querySelectorAll(".page");
-let current=0;
-let music=document.getElementById("music");
-
-function next(){
-  if(current < pages.length){
-    pages[current].classList.add("flipped");
-    current++;
-    if(current==1) music.play().catch(()=>{});
-  }
-}
-
-function prev(){
-  if(current>0){
-    current--;
-    pages[current].classList.remove("flipped");
-  }
-}
-
-/* SWIPE */
-let startX=0;
-document.addEventListener("touchstart",e=>{
-  startX=e.touches[0].clientX;
-});
-document.addEventListener("touchend",e=>{
-  let endX=e.changedTouches[0].clientX;
-  if(startX-endX>50) next();
-  if(endX-startX>50) prev();
-});
-
 /* 🍫 PARTÍCULAS */
 const canvas=document.getElementById("bg");
 const ctx=canvas.getContext("2d");
+
 canvas.width=innerWidth;
 canvas.height=innerHeight;
 
